@@ -2,6 +2,7 @@ package br.com.lab.impacta.account.handler
 
 
 import br.com.lab.impacta.account.handler.exception.AccountDontExistsException
+import br.com.lab.impacta.account.handler.exception.AccountWithoutBalanceException
 import br.com.lab.impacta.account.handler.exception.ErrorMessageResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -24,5 +25,17 @@ class ControllerExceptionHandler {
         )
 
         return ResponseEntity(errorMessageResponse, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(AccountWithoutBalanceException::class)
+    fun accountWithoutBalanceException (accountWithoutBalanceException: AccountWithoutBalanceException,
+                                  webRequest: WebRequest): ResponseEntity<ErrorMessageResponse>{
+
+        val errorMessageResponse = ErrorMessageResponse(HttpStatus.BAD_REQUEST.value(), Date(),
+            accountWithoutBalanceException.message,
+            accountWithoutBalanceException.description
+        )
+
+        return ResponseEntity(errorMessageResponse, HttpStatus.BAD_REQUEST)
     }
 }

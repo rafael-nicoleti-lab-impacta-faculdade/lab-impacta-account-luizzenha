@@ -13,7 +13,7 @@ class Account (
     @Column(name = "balance")
     var balance: Double,
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "person_id")
     var customer: Person
         ) {
 
